@@ -38,9 +38,9 @@ plt.legend()
 
 # Plot trykk
 plt.subplot(2, 1, 2)
-plt.plot(dato_og_tid, trykk_absolutt, label='Absolutt trykk (fil 2)')
 plt.plot(stasjon_tid, lufttrykk, label='Lufttrykk (fil 1)')
 plt.plot(dato_og_tid, trykk_barometer, label='Barometrisk trykk (fil 2)')
+plt.plot(dato_og_tid, trykk_absolutt, label='Absolutt trykk (fil 2)')
 plt.xlabel('Tid')
 plt.ylabel('Trykk (hPa)')
 plt.title('Atmosfærisk trykk fra begge filer')
