@@ -51,6 +51,3 @@ if __name__=="__main__":
 
     print("\nDatetime objects from the second file:")
     print(file2_datetimes[:10])
-
-    liste = ['06/13/2021 12:00:00 am','06/13/2021 12:01:08 am','06/13/2021 01:00:0 am','06/13/2021 00:00:08 am','06/13/2021 11:23:28 pm','06/13/2021 10:23:28 pm']
-    dato = [datetime.strptime(string,'%m/%d/%Y %I:%M:%S %p') for string in liste]
