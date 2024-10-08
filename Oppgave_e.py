@@ -13,32 +13,44 @@ def read_csv_to_lists(file_name):
     return data
 
 # Function to convert date and time strings to datetime objects
-def convert_to_datetime(date_str, date_format):
+def convert_to_datetime(date_str:str, date_format:str):
     try:
         return datetime.strptime(date_str, date_format)
     except ValueError:
         # Handle different date formats
         try:
-            return datetime.strptime(date_str, "%m/%d/%Y %I:%M:%S %p")
+            if date_str == '':
+                return None
+            dato_streng = date_str.replace('/',' ')
+            dato_streng = dato_streng.replace(':',' ')
+            dato_liste = dato_streng.split(' ')
+            if dato_liste[6] == 'pm' and dato_liste[3]!='12':
+                dato_liste[3] = str((int(dato_liste[3])) + 12)
+            dato_liste.pop()
+            dato_streng = ' '.join(dato_liste)
+            return datetime.strptime(dato_streng, '%m %d %Y %H %M %S')
         except ValueError:
             return None
 
 if __name__=="__main__":
     # Load data from the first file into lists
     file1_data = read_csv_to_lists('datafiler/trykk_og_temperaturlogg_rune_time.csv.txt')
-    
+
     # Load data from the second file into lists
     file2_data = read_csv_to_lists('datafiler/temperatur_trykk_met_samme_rune_time_datasett.csv.txt')
-    
+
     # Convert date and time strings to datetime objects for the first file
-    file1_datetimes = [convert_to_datetime(date_str, "%d.%m.%Y %H:%M") for date_str in file1_data['Dato og tid']]
-    
+    file1_datetimes = [convert_to_datetime(date_str, "%m.%d.%Y %H:%M") for date_str in file1_data['Dato og tid']]
+
     # Convert date and time strings to datetime objects for the second file
     file2_datetimes = [convert_to_datetime(date_str, "%d.%m.%Y %H:%M") for date_str in file2_data['Tid(norsk normaltid)']]
-    
+
     # Print the first few datetime objects to verify the conversion
     print("Datetime objects from the first file:")
     print(file1_datetimes[:10])
-    
+
     print("\nDatetime objects from the second file:")
     print(file2_datetimes[:10])
+
+    liste = ['06/13/2021 12:00:00 am','06/13/2021 12:01:08 am','06/13/2021 01:00:0 am','06/13/2021 00:00:08 am','06/13/2021 11:23:28 pm','06/13/2021 10:23:28 pm']
+    dato = [datetime.strptime(string,'%m/%d/%Y %I:%M:%S %p') for string in liste]
