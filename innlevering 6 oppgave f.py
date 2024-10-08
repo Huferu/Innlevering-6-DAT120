@@ -19,7 +19,7 @@ navn, stasjon, stasjon_tid_streng, lufttemperatur_streng, lufttrykk_streng = Lag
 temperatur = [float(temp.replace(',', '.')) for temp in temperatur_streng]
 lufttemperatur = [float(temp.replace(',', '.')) for temp in lufttemperatur_streng]
 
-dato_og_tid = [konverter_til_tid(dato, "%m %d %Y %H:%M") for dato in dato_og_tid_streng]
+dato_og_tid = [konverter_til_tid(dato, "%m.%d.%Y %H:%M") for dato in dato_og_tid_streng]
 stasjon_tid = [konverter_til_tid(dato, "%d.%m.%Y %H:%M")  for dato in stasjon_tid_streng]
 
 plt.plot(dato_og_tid,temperatur)

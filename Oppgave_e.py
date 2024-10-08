@@ -19,16 +19,16 @@ def convert_to_datetime(date_str, date_format):
     except ValueError:
         # Handle different date formats
         try:
-            return datetime.strptime(date_str, "%m/%d/%Y %H:%M:%S %p")
+            return datetime.strptime(date_str, "%m/%d/%Y %I:%M:%S %p")
         except ValueError:
             return None
 
 if __name__=="__main__":
     # Load data from the first file into lists
-    file1_data = read_csv_to_lists('trykk_og_temperaturlogg_rune_time.csv.txt')
+    file1_data = read_csv_to_lists('datafiler/trykk_og_temperaturlogg_rune_time.csv.txt')
     
     # Load data from the second file into lists
-    file2_data = read_csv_to_lists('temperatur_trykk_met_samme_rune_time_datasett.csv.txt')
+    file2_data = read_csv_to_lists('datafiler/temperatur_trykk_met_samme_rune_time_datasett.csv.txt')
     
     # Convert date and time strings to datetime objects for the first file
     file1_datetimes = [convert_to_datetime(date_str, "%d.%m.%Y %H:%M") for date_str in file1_data['Dato og tid']]
