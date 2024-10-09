@@ -1,37 +1,17 @@
 import csv
 from datetime import datetime
 import matplotlib.pyplot as plt
-
-# Function to read data from a CSV file and load it into lists
-def read_csv_to_lists(file_name):
-    with open(file_name, 'r', encoding='utf-8') as file:
-        reader = csv.DictReader(file, delimiter=';')
-        columns = reader.fieldnames
-        data = {column: [] for column in columns}
-        for row in reader:
-            for column in columns:
-                data[column].append(row[column])
-    return data
-
-# Function to convert date and time strings to datetime objects
-def convert_to_datetime(date_str, date_format):
-    try:
-        return datetime.strptime(date_str, date_format)
-    except ValueError:
-        # Handle different date formats
-        try:
-            return datetime.strptime(date_str, "%m/%d/%Y %I:%M:%S %p")
-        except ValueError:
-            return None
+from Oppgave6d import LagListe as Lagliste
+from Oppgave_e import convert_to_datetime as Konventer_til_dato
 
 # Load data from the file into lists
-file_data = read_csv_to_lists('temperatur_trykk_met_samme_rune_time_datasett.csv.txt')
+file_data = Lagliste('datafiler/temperatur_trykk_met_samme_rune_time_datasett.csv.txt',5)
 
 # Convert date and time strings to datetime objects
-datetimes = [convert_to_datetime(date_str, "%d.%m.%Y %H:%M") for date_str in file_data['Tid(norsk normaltid)']]
+datetimes = [Konventer_til_dato(date_str, "%d.%m.%Y %H:%M") for date_str in file_data[2]]
 
 # Convert temperature strings to floats, handling empty strings
-temperatures = [float(temp.replace(',', '.')) if temp else None for temp in file_data['Lufttemperatur']]
+temperatures = [float(temp.replace(',', '.')) if temp else None for temp in file_data[3]]
 
 # Filter out None values from the temperature lists along with their corresponding datetime values
 datetimes = [dt for dt, temp in zip(datetimes, temperatures) if temp is not None]
