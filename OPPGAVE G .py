@@ -8,13 +8,18 @@ Created on Tue Oct  1 11:01:58 2024
 
 import matplotlib.pyplot as plt
 from datetime import datetime
+from Oppgave6d import LagListe as Lagliste
+from Oppgave_e import convert_to_datetime as Konventer_til_dato
 
 # Eksempeldata: Tidspunkter og temperaturer (må passe i lengde)
-tidspunkter = [datetime(2021, 6, 11, i) for i in range(24)]
-temperaturer = [16, 15.8, 16.3, 16, 15.5, 16.1, 15.9, 16.4, 17, 16.2, 15.8, 16, 15.6, 16.1, 15.9, 16.3, 16, 15.8, 16.4, 16, 15.8, 16.2, 16.1, 16]
+Navn,Stasjon,Tid,Lufttemperatur,Lufttrykk = Lagliste('datafiler/temperatur_trykk_met_samme_rune_time_datasett.csv.txt',5)
+print(Tid)
+
+Dato = [Konventer_til_dato(dato, '%d.%m.%Y %H:%M') for dato in Tid]
+temperaturer = [float(temp.replace(',', '.')) for temp in Lufttemperatur]
 
 # Kontroller at lengdene matcher
-assert len(tidspunkter) == len(temperaturer), "Listene over tidspunkter og temperaturer må ha samme lengde!"
+assert len(Dato) == len(temperaturer), "Listene over tidspunkter og temperaturer må ha samme lengde!"
 
 # Funksjon for glidende gjennomsnitt
 def glidende_gjennomsnitt(tidspunkter, temperaturer, n):
@@ -30,10 +35,10 @@ def glidende_gjennomsnitt(tidspunkter, temperaturer, n):
 
 # Kall funksjonen for n = 2 (eller 30 i ditt tilfelle)
 n = 2
-gj_tider, gj_temperaturer = glidende_gjennomsnitt(tidspunkter, temperaturer, n)
+gj_tider, gj_temperaturer = glidende_gjennomsnitt(Dato, temperaturer, n)
 
 # Plotting
-plt.plot(tidspunkter, temperaturer, label='Original temperatur')
+plt.plot(Dato, temperaturer, label='Original temperatur')
 plt.plot(gj_tider, gj_temperaturer, color='orange', label=f'Glidende gjennomsnitt (n={n})')
 
 plt.xlabel('Tidspunkt')
